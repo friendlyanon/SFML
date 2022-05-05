@@ -1,16 +1,9 @@
-# all source files
-set(SRC Island.cpp)
+project(SFMLIslandExample CXX)
 
-# define the island target
-sfml_add_example(island GUI_APP
-                 SOURCES ${SRC}
-                 DEPENDS SFML::Graphics
-                 RESOURCES_DIR resources)
+sfml_add_example(island GUI_APP SOURCES Island.cpp DEPENDS SFML::Graphics)
 
-# external dependency headers
-target_include_directories(island SYSTEM PRIVATE ${PROJECT_SOURCE_DIR}/examples/island)
+find_package(Threads REQUIRED)
+target_link_libraries(island PRIVATE Threads::Threads)
 
-# link against pthread
-if(SFML_OS_LINUX OR SFML_OS_FREEBSD OR SFML_OS_MACOSX)
-    target_link_libraries(island PRIVATE pthread)
-endif()
+sfml_find_path_required(STB_PERLIN_INCLUDE_DIR stb_perlin.h)
+target_include_directories(island SYSTEM PRIVATE "${STB_PERLIN_INCLUDE_DIR}")

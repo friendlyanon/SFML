@@ -1,5 +1,9 @@
+project(SFMLExamples CXX)
+
+include("${SFML_SOURCE_DIR}/cmake/ExamplesMacros.cmake")
+
 # CLI based examples
-if (NOT SFML_OS_IOS)
+if(NOT SFML_OS_IOS)
     if(SFML_BUILD_NETWORK)
         add_subdirectory(ftp)
         add_subdirectory(sockets)
@@ -21,7 +25,7 @@ endif()
 if(SFML_BUILD_GRAPHICS)
     add_subdirectory(opengl)
 
-    if (NOT SFML_OS_IOS)
+    if(NOT SFML_OS_IOS)
         add_subdirectory(joystick)
         add_subdirectory(shader)
         add_subdirectory(island)
@@ -34,10 +38,19 @@ if(SFML_BUILD_GRAPHICS)
         if(NOT SFML_USE_DRM)
             add_subdirectory(X11)
         endif()
-    elseif(SFML_OS_MACOSX AND ${CMAKE_GENERATOR} MATCHES "Xcode")
+    elseif(SFML_OS_MACOSX AND CMAKE_GENERATOR STREQUAL "Xcode")
         add_subdirectory(cocoa)
     endif()
 endif()
+
 if(SFML_BUILD_GRAPHICS AND SFML_BUILD_AUDIO)
     add_subdirectory(tennis)
 endif()
+
+get_directory_property(examples SFML_EXAMPLES)
+add_custom_target(
+    examples
+    COMMAND "${CMAKE_COMMAND}" "-Dexamples=${examples}" -P cmake/PrintExamples.cmake
+    WORKING_DIRECTORY "${SFML_SOURCE_DIR}"
+    VERBATIM
+)

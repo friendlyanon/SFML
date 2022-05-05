@@ -35,10 +35,23 @@
 ////////////////////////////////////////////////////////////
 // Define the SFML version
 ////////////////////////////////////////////////////////////
-#define SFML_VERSION_MAJOR      3
-#define SFML_VERSION_MINOR      0
-#define SFML_VERSION_PATCH      0
-#define SFML_VERSION_IS_RELEASE false
+#define SFML_VERSION_MAJOR @SFML_VERSION_MAJOR@
+#define SFML_VERSION_MINOR @SFML_VERSION_MINOR@
+#define SFML_VERSION_PATCH @SFML_VERSION_PATCH@
+#cmakedefine01 SFML_VERSION_IS_RELEASE
+
+
+////////////////////////////////////////////////////////////
+// Define configuration constants
+////////////////////////////////////////////////////////////
+#cmakedefine SFML_OPENGL_ES
+#cmakedefine SFML_ANDROID_USE_SUSPEND_AWARE_CLOCK
+
+#if defined(SFML_OPENGL_ES)
+
+    #define GL_GLEXT_PROTOTYPES
+
+#endif
 
 
 ////////////////////////////////////////////////////////////

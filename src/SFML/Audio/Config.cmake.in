@@ -1,0 +1,9 @@
+include_guard()
+
+find_dependency(FLAC)
+find_dependency(OpenAL CONFIG)
+find_dependency(Vorbis)
+
+if(SFML_FOUND)
+    include("${CMAKE_CURRENT_LIST_DIR}/SFMLModuleTargetsAudio.cmake")
+endif()

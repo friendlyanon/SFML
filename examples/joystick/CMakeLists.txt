@@ -1,8 +1,3 @@
-# all source files
-set(SRC Joystick.cpp)
+project(SFMLJoystickExample CXX)
 
-# define the joystick target
-sfml_add_example(joystick GUI_APP
-                 SOURCES ${SRC}
-                 DEPENDS SFML::Graphics
-                 RESOURCES_DIR resources)
+sfml_add_example(joystick GUI_APP SOURCES Joystick.cpp DEPENDS SFML::Graphics)

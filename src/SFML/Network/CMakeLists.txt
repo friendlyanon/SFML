@@ -1,55 +1,49 @@
+sfml_add_library(Network)
 
-set(INCROOT ${PROJECT_SOURCE_DIR}/include/SFML/Network)
-set(SRCROOT ${PROJECT_SOURCE_DIR}/src/SFML/Network)
+sfml_define_src_inc_variables()
 
-# all source files
-set(SRC
-    ${INCROOT}/Export.hpp
-    ${SRCROOT}/Ftp.cpp
-    ${INCROOT}/Ftp.hpp
-    ${SRCROOT}/Http.cpp
-    ${INCROOT}/Http.hpp
-    ${SRCROOT}/IpAddress.cpp
-    ${INCROOT}/IpAddress.hpp
-    ${SRCROOT}/Packet.cpp
-    ${INCROOT}/Packet.hpp
-    ${SRCROOT}/Socket.cpp
-    ${INCROOT}/Socket.hpp
-    ${SRCROOT}/SocketImpl.hpp
-    ${INCROOT}/SocketHandle.hpp
-    ${SRCROOT}/SocketSelector.cpp
-    ${INCROOT}/SocketSelector.hpp
-    ${SRCROOT}/TcpListener.cpp
-    ${INCROOT}/TcpListener.hpp
-    ${SRCROOT}/TcpSocket.cpp
-    ${INCROOT}/TcpSocket.hpp
-    ${SRCROOT}/UdpSocket.cpp
-    ${INCROOT}/UdpSocket.hpp
+sfml_target_sources(
+    sfml-network GROUP "" FILES
+    ${inc}/Export.hpp
+    ${src}/Ftp.cpp
+    ${inc}/Ftp.hpp
+    ${src}/Http.cpp
+    ${inc}/Http.hpp
+    ${src}/IpAddress.cpp
+    ${inc}/IpAddress.hpp
+    ${src}/Packet.cpp
+    ${inc}/Packet.hpp
+    ${src}/Socket.cpp
+    ${inc}/Socket.hpp
+    ${src}/SocketImpl.hpp
+    ${inc}/SocketHandle.hpp
+    ${src}/SocketSelector.cpp
+    ${inc}/SocketSelector.hpp
+    ${src}/TcpListener.cpp
+    ${inc}/TcpListener.hpp
+    ${src}/TcpSocket.cpp
+    ${inc}/TcpSocket.hpp
+    ${src}/UdpSocket.cpp
+    ${inc}/UdpSocket.hpp
 )
 
-# add platform specific sources
 if(SFML_OS_WINDOWS)
-    set(SRC
-        ${SRC}
-        ${SRCROOT}/Win32/SocketImpl.cpp
-        ${SRCROOT}/Win32/SocketImpl.hpp
+    sfml_target_sources(
+        sfml-network GROUP windows FILES
+        ${src}/Win32/SocketImpl.cpp
+        ${src}/Win32/SocketImpl.hpp
     )
 else()
-    set(SRC
-        ${SRC}
-        ${SRCROOT}/Unix/SocketImpl.cpp
-        ${SRCROOT}/Unix/SocketImpl.hpp
+    sfml_target_sources(
+        sfml-network GROUP unix FILES
+        ${src}/Unix/SocketImpl.cpp
+        ${src}/Unix/SocketImpl.hpp
     )
 endif()
 
-source_group("" FILES ${SRC})
-
-# define the sfml-network target
-sfml_add_library(Network
-                 SOURCES ${SRC})
-
-# setup dependencies
 target_link_libraries(sfml-network PUBLIC SFML::System)
+
 if(SFML_OS_WINDOWS)
+    # ws2_32: provided by the system (Windows SDK)
     target_link_libraries(sfml-network PRIVATE ws2_32)
 endif()

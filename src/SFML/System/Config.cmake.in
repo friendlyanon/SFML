@@ -1,0 +1,7 @@
+include_guard()
+
+find_dependency(Threads)
+
+if(SFML_FOUND)
+    include("${CMAKE_CURRENT_LIST_DIR}/SFMLModuleTargetsSystem.cmake")
+endif()

@@ -1,8 +1,3 @@
-# all source files
-set(SRC Win32.cpp)
+project(SFMLWin32Example CXX)
 
-# define the win32 target
-sfml_add_example(win32 GUI_APP
-                 SOURCES ${SRC}
-                 DEPENDS SFML::Graphics
-                 RESOURCES_DIR resources)
+sfml_add_example(win32 GUI_APP SOURCES Win32.cpp DEPENDS SFML::Graphics)

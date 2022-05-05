@@ -1,7 +1,3 @@
-# all source files
-set(SRC SoundCapture.cpp)
+project(SFMLSoundCaptureExample CXX)
 
-# define the sound-capture target
-sfml_add_example(sound-capture
-                 SOURCES ${SRC}
-                 DEPENDS SFML::Audio)
+sfml_add_example(sound-capture SOURCES SoundCapture.cpp DEPENDS SFML::Audio)

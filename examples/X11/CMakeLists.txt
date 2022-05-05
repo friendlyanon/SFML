@@ -1,10 +1,6 @@
-# all source files
-set(SRC X11.cpp)
+project(SFMLX11Example CXX)
 
-# define the X11 target
-sfml_add_example(X11Example GUI_APP
-                 SOURCES ${SRC}
-                 DEPENDS SFML::Window X11)
+find_package(X11 REQUIRED)
+sfml_add_example(X11Example GUI_APP SOURCES X11.cpp DEPENDS SFML::Window X11::X11)
 
-# external dependency headers
-target_include_directories(X11Example SYSTEM PRIVATE ${PROJECT_SOURCE_DIR}/examples/X11)
+target_include_directories(X11Example SYSTEM PRIVATE "${PROJECT_SOURCE_DIR}")

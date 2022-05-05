@@ -1,14 +1,15 @@
-
 # find doxygen
 if(SFML_OS_MACOSX)
     # Add some path to search doxygen in more directories.
-    set(ADDITIONAL_PATHS
+    set(
+        ADDITIONAL_PATHS
         /Developer/Applications/Doxygen.app/Contents/Resources
         /Developer/Applications/Doxygen.app/Contents/MacOS
-        $ENV{HOME}/Applications/Doxygen.app/Contents/Resources
-        $ENV{HOME}/Applications/Doxygen.app/Contents/MacOS
-        $ENV{HOME}/Applications/Developer/Doxygen.app/Contents/Resources
-        $ENV{HOME}/Applications/Developer/Doxygen.app/Contents/MacOS)
+        "$ENV{HOME}/Applications/Doxygen.app/Contents/Resources"
+        "$ENV{HOME}/Applications/Doxygen.app/Contents/MacOS"
+        "$ENV{HOME}/Applications/Developer/Doxygen.app/Contents/Resources"
+        "$ENV{HOME}/Applications/Developer/Doxygen.app/Contents/MacOS"
+    )
 
     list(APPEND CMAKE_PROGRAM_PATH ${ADDITIONAL_PATHS})
 endif()
@@ -16,50 +17,54 @@ endif()
 find_package(Doxygen REQUIRED)
 
 # set the input and output documentation paths
-set(DOXYGEN_INPUT_DIR ${PROJECT_SOURCE_DIR})
-set(DOXYGEN_OUTPUT_DIR ${PROJECT_BINARY_DIR}/doc)
+set(DOXYGEN_INPUT_DIR "${SFML_SOURCE_DIR}")
+set(DOXYGEN_OUTPUT_DIR "${SFML_BINARY_DIR}/doc")
 
 # see if we can generate the CHM documentation
 if(SFML_OS_WINDOWS)
     # if HHC is found, we can generate the CHM (compressed HTML) output
-    find_program(DOXYGEN_HHC_PROGRAM
-                 NAMES hhc.exe
-                 PATHS "C:/Program Files/HTML Help Workshop" "C:/Program Files (x86)/HTML Help Workshop"
-                 DOC "HTML Help Compiler program")
+    find_program(
+        DOXYGEN_HHC_PROGRAM
+        NAMES hhc.exe
+        PATHS "C:/Program Files/HTML Help Workshop" "C:/Program Files (x86)/HTML Help Workshop"
+        DOC "HTML Help Compiler program"
+    )
+    set(DOXYGEN_GENERATE_HTMLHELP NO)
     if(DOXYGEN_HHC_PROGRAM)
         set(DOXYGEN_GENERATE_HTMLHELP YES)
-    else()
-        set(DOXYGEN_GENERATE_HTMLHELP NO)
     endif()
 else()
-    set(DOXYGEN_HHC_PROGRAM)
+    set(DOXYGEN_HHC_PROGRAM "")
     set(DOXYGEN_GENERATE_HTMLHELP NO)
 endif()
 
 # configure the source Doxyfile by copying it and replacing all @variables@
-set(DOXYGEN_CONFIGURED_INPUT ${DOXYGEN_OUTPUT_DIR}/doxyfile)
-configure_file(${DOXYGEN_INPUT_DIR}/doc/doxyfile.in ${DOXYGEN_CONFIGURED_INPUT} @ONLY)
-configure_file(${DOXYGEN_INPUT_DIR}/doc/header.html.in ${DOXYGEN_OUTPUT_DIR}/header.html @ONLY)
+set(DOXYGEN_CONFIGURED_INPUT "${DOXYGEN_OUTPUT_DIR}/doxyfile")
+configure_file("${DOXYGEN_INPUT_DIR}/doc/doxyfile.in" "${DOXYGEN_CONFIGURED_INPUT}" @ONLY)
+configure_file("${DOXYGEN_INPUT_DIR}/doc/header.html.in" "${DOXYGEN_OUTPUT_DIR}/header.html" @ONLY)
 
 # copy the files needed by the documentation
-configure_file(${DOXYGEN_INPUT_DIR}/doc/doxygen.css ${DOXYGEN_OUTPUT_DIR}/html/doxygen.css COPYONLY)
+configure_file("${DOXYGEN_INPUT_DIR}/doc/doxygen.css" "${DOXYGEN_OUTPUT_DIR}/html/doxygen.css" COPYONLY)
 
 # target setup
-add_custom_target(doc ALL
-                  COMMAND ${CMAKE_COMMAND} -E echo_append "Building API Documentation..."
-                  COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_CONFIGURED_INPUT}
-                  COMMAND ${CMAKE_COMMAND} -E echo "Done."
-                  WORKING_DIRECTORY ${DOXYGEN_INPUT_DIR})
+add_custom_target(
+    doc ALL
+    COMMAND "${CMAKE_COMMAND}" -E echo_append "Building API Documentation..."
+    COMMAND "${DOXYGEN_EXECUTABLE}" "${DOXYGEN_CONFIGURED_INPUT}"
+    COMMAND "${CMAKE_COMMAND}" -E echo Done.
+    WORKING_DIRECTORY "${DOXYGEN_INPUT_DIR}"
+    COMMENT "Building documentation"
+    VERBATIM
+)
 
-# setup install rules
-install(FILES ${DOXYGEN_OUTPUT_DIR}/SFML.tag
-        DESTINATION ${CMAKE_INSTALL_DOCDIR}
-        COMPONENT doc)
-install(DIRECTORY ${DOXYGEN_OUTPUT_DIR}/html
-        DESTINATION ${CMAKE_INSTALL_DOCDIR}
-        COMPONENT doc)
+if(CMAKE_SKIP_INSTALL_RULES)
+    return()
+endif()
+
+set(CMAKE_INSTALL_DEFAULT_COMPONENT_NAME Documentation)
+
+install(FILES "${DOXYGEN_OUTPUT_DIR}/SFML.tag" DESTINATION "${CMAKE_INSTALL_DOCDIR}")
+install(DIRECTORY "${DOXYGEN_OUTPUT_DIR}/html" DESTINATION "${CMAKE_INSTALL_DOCDIR}")
 if(DOXYGEN_HHC_PROGRAM)
-    install(FILES ${DOXYGEN_OUTPUT_DIR}/sfml.chm
-            DESTINATION ${CMAKE_INSTALL_DOCDIR}
-            COMPONENT doc)
+    install(FILES "${DOXYGEN_OUTPUT_DIR}/sfml.chm" DESTINATION "${CMAKE_INSTALL_DOCDIR}")
 endif()

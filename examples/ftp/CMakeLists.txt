@@ -1,7 +1,3 @@
-# all source files
-set(SRC Ftp.cpp)
+project(SFMLFTPExample CXX)
 
-# define the ftp target
-sfml_add_example(ftp
-                 SOURCES ${SRC}
-                 DEPENDS SFML::Network)
+sfml_add_example(ftp SOURCES Ftp.cpp DEPENDS SFML::Network)

@@ -39,3 +39,8 @@ build/
 .vscode/
 .idea/
 .vs/
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+CMakeUserPresets.json

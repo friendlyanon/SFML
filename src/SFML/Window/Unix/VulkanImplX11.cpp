@@ -34,7 +34,7 @@
 #include <string>
 #define VK_USE_PLATFORM_XLIB_KHR
 #define VK_NO_PROTOTYPES
-#include <vulkan.h>
+#include <vulkan/vulkan.h>
 
 
 namespace

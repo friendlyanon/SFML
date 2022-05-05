@@ -186,11 +186,7 @@ void ANativeActivity_onCreate(ANativeActivity* activity, void* savedState, size_
 
     // Load our libraries in reverse order
 #if defined(STL_LIBRARY)
-#define _SFML_QS(s) _SFML_S(s)
-#define _SFML_S(s)  #s
-    loadLibrary(_SFML_QS(STL_LIBRARY), lJNIEnv, ObjectActivityInfo);
-#undef _SFML_S
-#undef _SFML_QS
+    loadLibrary(STL_LIBRARY, lJNIEnv, ObjectActivityInfo);
 #endif
     loadLibrary("openal", lJNIEnv, ObjectActivityInfo);
 

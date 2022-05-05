@@ -1,8 +1,3 @@
-# all source files
-set(SRC Sound.cpp)
+project(SFMLSoundExample CXX)
 
-# define the sound target
-sfml_add_example(sound
-                 SOURCES ${SRC}
-                 DEPENDS SFML::Audio
-                 RESOURCES_DIR resources)
+sfml_add_example(sound SOURCES Sound.cpp DEPENDS SFML::Audio)
