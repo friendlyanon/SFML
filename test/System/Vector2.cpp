@@ -2,7 +2,7 @@
 #include "SystemUtil.hpp"
 #include <type_traits>
 
-#include <doctest.h>
+#include <doctest/doctest.h>
 
 using namespace sf::Literals;
 

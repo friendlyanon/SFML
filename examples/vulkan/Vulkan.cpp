@@ -3,7 +3,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #define GLAD_VULKAN_IMPLEMENTATION
-#include <vulkan.h>
+#include <vulkan/vulkan.h>
 
 // Include graphics because we use sf::Image for loading images
 #include <SFML/Graphics.hpp>

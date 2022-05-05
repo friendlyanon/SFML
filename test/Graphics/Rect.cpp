@@ -2,7 +2,7 @@
 #include <SFML/System/Vector2.hpp>
 #include "GraphicsUtil.hpp"
 
-#include <doctest.h>
+#include <doctest/doctest.h>
 
 TEST_CASE("sf::Rect class template - [graphics]")
 {

@@ -1,7 +1,7 @@
 #include <SFML/System/Err.hpp>
 #include <sstream>
 
-#include <doctest.h>
+#include <doctest/doctest.h>
 
 TEST_CASE("sf::err - [system]")
 {

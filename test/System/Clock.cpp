@@ -3,7 +3,7 @@
 #include "SystemUtil.hpp"
 #include <thread>
 
-#include <doctest.h>
+#include <doctest/doctest.h>
 
 TEST_CASE("sf::Clock class - [system]")
 {

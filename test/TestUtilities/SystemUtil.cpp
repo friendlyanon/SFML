@@ -4,7 +4,7 @@
 #include <SFML/System/String.hpp>
 #include <SFML/System/Time.hpp>
 
-#include <doctest.h> // for Approx
+#include <doctest/doctest.h> // for Approx
 #include <cassert>
 #include <filesystem>
 #include <fstream>

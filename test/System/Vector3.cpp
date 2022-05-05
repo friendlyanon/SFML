@@ -2,7 +2,7 @@
 #include "SystemUtil.hpp"
 #include <type_traits>
 
-#include <doctest.h>
+#include <doctest/doctest.h>
 
 // Use sf::Vector3i for tests (except for float vector algebra).
 // Test coverage is given, as there are no template specializations.

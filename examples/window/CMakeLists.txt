@@ -1,13 +1,5 @@
+project(SFMLWindowExample CXX)
 
-set(SRCROOT ${PROJECT_SOURCE_DIR}/examples/window)
+sfml_add_example(window GUI_APP SOURCES Window.cpp DEPENDS SFML::Window)
 
-# all source files
-set(SRC ${SRCROOT}/Window.cpp)
-
-# define the window target
-sfml_add_example(window GUI_APP
-                 SOURCES ${SRC}
-                 DEPENDS SFML::Window)
-
-# external dependency headers
-target_include_directories(window SYSTEM PRIVATE ${PROJECT_SOURCE_DIR}/examples/window)
+target_include_directories(window SYSTEM PRIVATE "${PROJECT_SOURCE_DIR}")

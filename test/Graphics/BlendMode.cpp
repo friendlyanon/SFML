@@ -1,7 +1,7 @@
 #include <SFML/Graphics/BlendMode.hpp>
 #include "GraphicsUtil.hpp"
 
-#include <doctest.h>
+#include <doctest/doctest.h>
 
 TEST_CASE("sf::BlendMode class - [graphics]")
 {

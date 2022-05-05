@@ -1,84 +1,78 @@
+sfml_add_library(System)
 
-set(INCROOT ${PROJECT_SOURCE_DIR}/include/SFML/System)
-set(SRCROOT ${PROJECT_SOURCE_DIR}/src/SFML/System)
+sfml_define_src_inc_variables(System)
 
-# all source files
-set(SRC
-    ${INCROOT}/Angle.hpp
-    ${INCROOT}/Angle.inl
-    ${SRCROOT}/Clock.cpp
-    ${INCROOT}/Clock.hpp
-    ${SRCROOT}/Err.cpp
-    ${INCROOT}/Err.hpp
-    ${INCROOT}/Export.hpp
-    ${INCROOT}/InputStream.hpp
-    ${INCROOT}/NativeActivity.hpp
-    ${SRCROOT}/Sleep.cpp
-    ${INCROOT}/Sleep.hpp
-    ${SRCROOT}/String.cpp
-    ${INCROOT}/String.hpp
-    ${INCROOT}/String.inl
-    ${INCROOT}/Time.hpp
-    ${INCROOT}/Time.inl
-    ${INCROOT}/Utf.hpp
-    ${INCROOT}/Utf.inl
-    ${INCROOT}/Vector2.hpp
-    ${INCROOT}/Vector2.inl
-    ${INCROOT}/Vector3.hpp
-    ${INCROOT}/Vector3.inl
-    ${SRCROOT}/FileInputStream.cpp
-    ${INCROOT}/FileInputStream.hpp
-    ${SRCROOT}/MemoryInputStream.cpp
-    ${INCROOT}/MemoryInputStream.hpp
-    ${INCROOT}/SuspendAwareClock.hpp
+sfml_target_sources(
+    sfml-system GROUP "" FILES
+    ${inc}/Angle.hpp
+    ${inc}/Angle.inl
+    ${src}/Clock.cpp
+    ${inc}/Clock.hpp
+    ${src}/Err.cpp
+    ${inc}/Err.hpp
+    ${inc}/Export.hpp
+    ${inc}/InputStream.hpp
+    ${inc}/NativeActivity.hpp
+    ${src}/Sleep.cpp
+    ${inc}/Sleep.hpp
+    ${src}/String.cpp
+    ${inc}/String.hpp
+    ${inc}/String.inl
+    ${inc}/Time.hpp
+    ${inc}/Time.inl
+    ${inc}/Utf.hpp
+    ${inc}/Utf.inl
+    ${inc}/Vector2.hpp
+    ${inc}/Vector2.inl
+    ${inc}/Vector3.hpp
+    ${inc}/Vector3.inl
+    ${src}/FileInputStream.cpp
+    ${inc}/FileInputStream.hpp
+    ${src}/MemoryInputStream.cpp
+    ${inc}/MemoryInputStream.hpp
+    ${inc}/SuspendAwareClock.hpp
 )
-source_group("" FILES ${SRC})
 
-# add platform specific sources
 if(SFML_OS_WINDOWS)
-    set(PLATFORM_SRC
-        ${SRCROOT}/Win32/SleepImpl.cpp
-        ${SRCROOT}/Win32/SleepImpl.hpp
+    sfml_target_sources(
+        sfml-system GROUP windows FILES
+        ${src}/Win32/SleepImpl.cpp
+        ${src}/Win32/SleepImpl.hpp
     )
-    source_group("windows" FILES ${PLATFORM_SRC})
 else()
-    set(PLATFORM_SRC
-        ${SRCROOT}/Unix/SleepImpl.cpp
-        ${SRCROOT}/Unix/SleepImpl.hpp
+    sfml_target_sources(
+        sfml-system GROUP unix FILES
+        ${src}/Unix/SleepImpl.cpp
+        ${src}/Unix/SleepImpl.hpp
     )
 
     if(SFML_OS_ANDROID)
-        set(PLATFORM_SRC ${PLATFORM_SRC}
-            ${SRCROOT}/Android/Activity.hpp
-            ${SRCROOT}/Android/Activity.cpp
-            ${SRCROOT}/Android/NativeActivity.cpp
-            ${SRCROOT}/Android/ResourceStream.cpp
-            ${SRCROOT}/Android/ResourceStream.cpp
-            ${SRCROOT}/Android/SuspendAwareClock.cpp
+        sfml_target_sources(
+            sfml-system GROUP unix FILES
+            ${src}/Android/Activity.hpp
+            ${src}/Android/Activity.cpp
+            ${src}/Android/NativeActivity.cpp
+            ${src}/Android/ResourceStream.cpp
+            ${src}/Android/ResourceStream.cpp
+            ${src}/Android/SuspendAwareClock.cpp
         )
     endif()
-
-    source_group("unix" FILES ${PLATFORM_SRC})
 endif()
-
-# define the sfml-system target
-sfml_add_library(System
-                 SOURCES ${SRC} ${PLATFORM_SRC})
 
 if(SFML_OS_ANDROID)
-    # glad sources
-    target_include_directories(sfml-system PRIVATE "${PROJECT_SOURCE_DIR}/extlibs/headers/glad/include")
+    target_include_directories(sfml-window SYSTEM PRIVATE "${SFML_SOURCE_DIR}/src/glad")
 endif()
 
-# setup dependencies
-if(SFML_OS_LINUX OR SFML_OS_FREEBSD OR SFML_OS_MACOSX)
-    target_link_libraries(sfml-system PRIVATE pthread)
-endif()
+find_package(Threads REQUIRED)
+target_link_libraries(sfml-system PRIVATE Threads::Threads)
 
 if(SFML_OS_LINUX)
+    # rt: provided by the system
     target_link_libraries(sfml-system PRIVATE rt)
 elseif(SFML_OS_WINDOWS)
+    # winmm: provided by the system (Windows SDK)
     target_link_libraries(sfml-system PRIVATE winmm)
 elseif(SFML_OS_ANDROID)
+    # android and log: provided by the system
     target_link_libraries(sfml-system PRIVATE android log)
 endif()

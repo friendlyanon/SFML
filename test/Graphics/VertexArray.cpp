@@ -1,7 +1,7 @@
 #include <SFML/Graphics/VertexArray.hpp>
 #include "GraphicsUtil.hpp"
 
-#include <doctest.h>
+#include <doctest/doctest.h>
 
 TEST_CASE("sf::VertexArray class - [graphics]")
 {

@@ -1,7 +1,7 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include "SystemUtil.hpp"
 
-#include <doctest.h>
+#include <doctest/doctest.h>
 
 TEST_CASE("sf::RectangleShape class - [graphics]")
 {

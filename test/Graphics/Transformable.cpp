@@ -2,7 +2,7 @@
 #include "GraphicsUtil.hpp"
 #include "SystemUtil.hpp"
 
-#include <doctest.h>
+#include <doctest/doctest.h>
 
 TEST_CASE("sf::Transformable class - [graphics]")
 {

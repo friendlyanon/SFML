@@ -3,7 +3,7 @@
 #include <string_view>
 #include <utility>
 
-#include <doctest.h>
+#include <doctest/doctest.h>
 
 TEST_CASE("sf::FileInputStream class - [system]")
 {

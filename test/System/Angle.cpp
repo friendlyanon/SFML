@@ -1,7 +1,7 @@
 #include <SFML/System/Angle.hpp>
 #include "SystemUtil.hpp"
 
-#include <doctest.h>
+#include <doctest/doctest.h>
 
 TEST_CASE("sf::Angle class - [system]")
 {
